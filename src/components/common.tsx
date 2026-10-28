@@ -50,7 +50,11 @@ export function useClock() {
 }
 
 export function Mark({ className = '' }: { className?: string }) {
-  return <span className={`mark ${className}`}>nl</span>
+  return (
+    <span className={`mark ${className}`}>
+      nl<i aria-hidden="true" />
+    </span>
+  )
 }
 
 export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {

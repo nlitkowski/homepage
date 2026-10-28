@@ -11,6 +11,7 @@ const nav = [
   { href: '#about', label: 'About' },
   { href: '#work', label: 'Work' },
   { href: '#experience', label: 'Experience' },
+  { href: '#stack', label: 'Stack' },
   { href: '#contact', label: 'Contact' },
 ]
 
@@ -31,12 +32,18 @@ export function Header() {
         <a href="#top" aria-label="Back to top">
           <Mark />
         </a>
-        <span className="hide-md">{profile.role}</span>
-        <span className="hide-md">
-          {profile.location} — {time}
+        <nav className="header__nav hide-md">
+          {nav.slice(0, 4).map(item => (
+            <a key={item.href} href={item.href} className="underline-link">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <span className="header__time hide-md mono">
+          <i className="header__dot" /> {time} KRK
         </span>
         <button className="header__menu caps" onClick={() => setOpen(o => !o)} aria-expanded={open}>
-          {open ? 'Close' : 'Menu'}
+          {open ? 'Close ✕' : 'Index +'}
         </button>
       </header>
       <AnimatePresence>
@@ -76,31 +83,32 @@ export function Hero() {
   return (
     <section className="hero" id="top">
       <Canvas draw={flowLines} />
-      <div className="hero__split" />
-      <motion.h1
-        className="hero__title"
-        initial={{ opacity: 0, filter: 'blur(12px)' }}
-        animate={{ opacity: 1, filter: 'blur(0px)' }}
-        transition={{ duration: 1.6, ease }}
-      >
-        <span>
-          <span className="sr-only">{profile.name}</span>
-          <span className="mark" aria-hidden="true">
-            litkowski
-          </span>
-        </span>
-      </motion.h1>
+      <div className="hero__title">
+        <motion.p
+          className="mono"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.6 }}
+        >
+          {'>'} {profile.role.toLowerCase()} — {years} years in production
+        </motion.p>
+        <h1>
+          {['Norbert', 'Litkowski'].map((word, i) => (
+            <span key={word} className="hero__line">
+              <motion.span
+                initial={{ y: '105%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 1.2, delay: 0.15 + i * 0.12, ease }}
+              >
+                {word}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
+      </div>
       <div className="hero__meta grid4 caps">
-        <span>
-          Norbert
-          <br />
-          Litkowski
-        </span>
-        <span>
-          {years} years
-          <br />
-          shipping software
-        </span>
+        <span>{profile.location}</span>
+        <span>Identity · SSO · Integration</span>
         <span className="hide-md">
           TypeScript · React
           <br />
@@ -123,9 +131,6 @@ export function Intro() {
         <div className="hide-md" />
         <Reveal className="intro__body">
           <p>{profile.summary}</p>
-          <p className="caps" style={{ marginTop: 28, color: 'var(--fg)' }}>
-            {profile.relocation}.
-          </p>
         </Reveal>
         <Reveal className="intro__facts" delay={0.1}>
           <div>
@@ -189,8 +194,8 @@ export function Work() {
               <h3 className="card__title">{p.title}</h3>
               <span className="caps muted">{p.tagline}</span>
               <span className="card__see caps">
-                <b>See project</b>
-                <b>See project</b>
+                <b>Case study →</b>
+                <b>Case study →</b>
               </span>
             </div>
           </motion.button>
@@ -318,87 +323,37 @@ export function Experience() {
   )
 }
 
-const circles = [
-  { cx: 200, cy: 130 },
-  { cx: 270, cy: 200 },
-  { cx: 200, cy: 270 },
-  { cx: 130, cy: 200 },
-]
-
-export function Disciplines() {
-  const [active, setActive] = useState(0)
-
-  useEffect(() => {
-    const id = setInterval(() => setActive(a => (a + 1) % disciplines.length), 3200)
-    return () => clearInterval(id)
-  }, [active])
-
+export function Stack() {
+  const [active, setActive] = useState<number | null>(null)
   return (
-    <section className="section">
-      <div className="grid4 disc">
-        <Reveal className="disc__left">
-          <h2>Disciplines</h2>
-          <ul className="disc__list caps">
-            {disciplines.map((d, i) => (
-              <li key={d.name}>
-                <button
-                  className="disc__item caps"
-                  data-active={active === i}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                >
-                  <span className="disc__num">{i + 1}</span>
-                  {d.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={active}
-              className="disc__skills mono muted"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35 }}
+    <section className="section" id="stack">
+      <div className="grid4 stack__head">
+        <h2>
+          <SectionLabel index="04">Stack</SectionLabel>
+        </h2>
+        <ScrollWords className="stack__lead" text="Identity is where the layers meet — so I work across all of them." />
+      </div>
+      <div className="stack grid4">
+        {disciplines.map((d, i) => (
+          <Reveal key={d.name} delay={i * 0.08}>
+            <div
+              className="stack__col"
+              data-dim={active !== null && active !== i}
+              onMouseEnter={() => setActive(i)}
+              onMouseLeave={() => setActive(null)}
             >
-              {disciplines[active].items.join(' · ')}
-            </motion.p>
-          </AnimatePresence>
-        </Reveal>
-        <div className="disc__right">
-          <svg viewBox="0 0 400 400" role="img" aria-label="Four overlapping disciplines: frontend, backend, identity, infrastructure">
-            <g className="spin">
-              {circles.map((c, i) => (
-                <g key={i}>
-                  <motion.circle
-                    cx={c.cx}
-                    cy={c.cy}
-                    r={100}
-                    fill="rgba(236,235,230,0.04)"
-                    stroke="var(--fg)"
-                    animate={{ strokeOpacity: active === i ? 1 : 0.28, fillOpacity: active === i ? 1 : 0 }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <circle
-                    cx={200 + (c.cx - 200) * 2.05}
-                    cy={200 + (c.cy - 200) * 2.05}
-                    r={7}
-                    fill="var(--bg)"
-                    stroke="var(--fg)"
-                    strokeOpacity={0.5}
-                  />
-                </g>
-              ))}
-            </g>
-            <rect x={185} y={185} width={30} height={30} fill="var(--bg)" />
-            <text x={200} y={206} textAnchor="middle" fill="var(--fg)" fontWeight={700} fontSize={18} letterSpacing={-1}>
-              nl
-            </text>
-            <rect x={187} y={200} width={26} height={1.8} fill="var(--fg)" />
-          </svg>
-        </div>
+              <div className="stack__name">
+                <span className="mono muted">{String(i + 1).padStart(2, '0')}/</span>
+                <h3>{d.name}</h3>
+              </div>
+              <ul className="mono">
+                {d.items.map(item => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        ))}
       </div>
     </section>
   )
@@ -409,7 +364,7 @@ export function Education() {
     <section className="section">
       <div className="grid4" style={{ marginBottom: 'clamp(32px, 4vw, 64px)' }}>
         <h2>
-          <SectionLabel index="04">Education</SectionLabel>
+          <SectionLabel index="05">Education</SectionLabel>
         </h2>
       </div>
       <div className="grid4 edu">
@@ -435,7 +390,7 @@ export function Contact() {
   return (
     <>
       <section className="cta" id="contact">
-        <SectionLabel index="05">Contact</SectionLabel>
+        <SectionLabel index="06">Contact</SectionLabel>
         <a className="cta__big" href={`mailto:${profile.email}`}>
           Let’s talk <em>→</em>
         </a>
@@ -452,7 +407,6 @@ export function Contact() {
                 {profile.email}
               </a>
             </li>
-            <li className="muted">{profile.relocation}</li>
           </ul>
         </div>
         <div>

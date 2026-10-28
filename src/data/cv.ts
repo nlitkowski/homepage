@@ -2,7 +2,6 @@ export const profile = {
   name: 'Norbert Litkowski',
   role: 'Full-stack software engineer',
   location: 'Kraków, PL',
-  relocation: 'Open to relocating to Warsaw and the US',
   email: 'norbert.litkowski@gmail.com',
   github: 'https://github.com/nlitkowski',
   linkedin: 'https://www.linkedin.com/in/norbert-litkowski',

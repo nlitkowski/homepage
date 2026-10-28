@@ -4,7 +4,7 @@ import '@fontsource-variable/inter-tight'
 import '@fontsource-variable/jetbrains-mono'
 import './styles.css'
 import { Cursor, useSmoothScroll } from './components/common'
-import { Contact, Disciplines, Education, Experience, Header, Hero, Intro, Marquee, Work } from './components/sections'
+import { Contact, Education, Experience, Header, Hero, Intro, Marquee, Stack, Work } from './components/sections'
 
 function App() {
   useSmoothScroll()
@@ -17,7 +17,7 @@ function App() {
         <Marquee />
         <Work />
         <Experience />
-        <Disciplines />
+        <Stack />
         <Education />
       </main>
       <Contact />
