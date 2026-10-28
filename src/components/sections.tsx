@@ -1,21 +1,37 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { Canvas } from './Canvas'
 import { flowLines, projectVisuals } from './visuals'
 import { Mark, Reveal, ScrollWords, SectionLabel, useClock, useScrollLock } from './common'
-import { disciplines, education, experience, interests, languages, profile, projects, type Project } from '../data/cv'
+import { Dotted, Icon, Period } from './ui'
+import { useTheme } from '../theme'
+import { languages } from '../i18n'
+import {
+  disciplines,
+  education,
+  experience,
+  heroTech,
+  interests,
+  marquee,
+  profile,
+  projects,
+  spokenLanguages,
+  type Project,
+} from '../data/cv'
 
 const ease = [0.22, 1, 0.36, 1] as const
+const navIds = ['about', 'work', 'experience', 'stack', 'contact'] as const
+const yearsInProduction = () => new Date().getFullYear() - profile.since
 
-const nav = [
-  { href: '#about', label: 'About' },
-  { href: '#work', label: 'Work' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#stack', label: 'Stack' },
-  { href: '#contact', label: 'Contact' },
-]
+const useList = (prefix: string) => {
+  const { t } = useTranslation()
+  return (key: string) => t(`${prefix}.${key}`, { returnObjects: true }) as string[]
+}
 
 export function Header() {
+  const { t, i18n } = useTranslation()
+  const { theme, toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
   const time = useClock()
   useScrollLock(open)
@@ -26,25 +42,40 @@ export function Header() {
     return () => window.removeEventListener('overlay:close', close)
   }, [])
 
+  const themeLabel = theme === 'dark' ? t('header.themeToLight') : t('header.themeToDark')
+
   return (
     <>
       <header className="header grid4 caps">
-        <a href="#top" aria-label="Back to top">
+        <a href="#top" aria-label={t('header.backToTop')}>
           <Mark />
         </a>
         <nav className="header__nav hide-md">
-          {nav.slice(0, 4).map(item => (
-            <a key={item.href} href={item.href} className="underline-link">
-              {item.label}
+          {navIds.slice(0, 4).map(id => (
+            <a key={id} href={`#${id}`} className="underline-link">
+              {t(`nav.${id}`)}
             </a>
           ))}
         </nav>
         <span className="header__time hide-md mono">
           <i className="header__dot" /> {time} KRK
         </span>
-        <button className="header__menu caps" onClick={() => setOpen(o => !o)} aria-expanded={open}>
-          {open ? 'Close ✕' : 'Index +'}
-        </button>
+        <div className="header__controls">
+          <div className="lang mono" role="group" aria-label={t('header.language')}>
+            {languages.map(l => (
+              <button key={l} className="caps" aria-pressed={i18n.resolvedLanguage === l} onClick={() => i18n.changeLanguage(l)}>
+                {l}
+              </button>
+            ))}
+          </div>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label={themeLabel} title={themeLabel}>
+            <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
+          </button>
+          <button className="header__menu caps with-icon" onClick={() => setOpen(o => !o)} aria-expanded={open}>
+            {open ? t('header.close') : t('header.menu')}
+            <Icon name={open ? 'close' : 'plus'} />
+          </button>
+        </div>
       </header>
       <AnimatePresence>
         {open && (
@@ -56,17 +87,17 @@ export function Header() {
             transition={{ duration: 0.8, ease }}
           >
             <ul className="menu__list">
-              {nav.map((item, i) => (
-                <li key={item.href}>
+              {navIds.map((id, i) => (
+                <li key={id}>
                   <motion.a
-                    href={item.href}
+                    href={`#${id}`}
                     onClick={() => setOpen(false)}
                     initial={{ y: '100%' }}
                     animate={{ y: 0 }}
                     transition={{ duration: 0.8, delay: 0.25 + i * 0.06, ease }}
                   >
                     <span className="mono">0{i + 1}</span>
-                    {item.label}
+                    {t(`nav.${id}`)}
                   </motion.a>
                 </li>
               ))}
@@ -79,27 +110,20 @@ export function Header() {
 }
 
 export function Hero() {
-  const years = new Date().getFullYear() - profile.since
+  const { t } = useTranslation()
+  const focus = t('hero.focus', { returnObjects: true }) as string[]
   return (
     <section className="hero" id="top">
       <Canvas draw={flowLines} />
       <div className="hero__title">
-        <motion.p
-          className="mono"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-        >
-          {'>'} {profile.role.toLowerCase()} — {years} years in production
+        <motion.p className="mono" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6 }}>
+          <span className="prompt" aria-hidden="true" />
+          {t('hero.caption', { count: yearsInProduction() })}
         </motion.p>
         <h1>
-          {['Norbert', 'Litkowski'].map((word, i) => (
+          {profile.name.split(' ').map((word, i) => (
             <span key={word} className="hero__line">
-              <motion.span
-                initial={{ y: '105%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.2, delay: 0.15 + i * 0.12, ease }}
-              >
+              <motion.span initial={{ y: '105%' }} animate={{ y: 0 }} transition={{ duration: 1.2, delay: 0.15 + i * 0.12, ease }}>
                 {word}
               </motion.span>
             </span>
@@ -107,15 +131,15 @@ export function Hero() {
         </h1>
       </div>
       <div className="hero__meta grid4 caps">
-        <span>{profile.location}</span>
-        <span>Identity · SSO · Integration</span>
+        <span>
+          {profile.city}, {profile.country}
+        </span>
+        <Dotted items={focus} />
         <span className="hide-md">
-          TypeScript · React
-          <br />
-          Node.js · .NET · SQL
+          <Dotted items={heroTech} />
         </span>
         <a href="#about" className="hero__scroll">
-          Scroll <span />
+          {t('hero.scroll')} <span />
         </a>
       </div>
     </section>
@@ -123,27 +147,29 @@ export function Hero() {
 }
 
 export function Intro() {
+  const { t } = useTranslation()
+  const years = yearsInProduction()
   return (
     <section className="section" id="about">
       <div className="grid4">
-        <SectionLabel index="01">About</SectionLabel>
-        <ScrollWords className="statement" text={profile.statement} />
+        <SectionLabel index="01">{t('nav.about')}</SectionLabel>
+        <ScrollWords key={t('about.statement')} className="statement" text={t('about.statement')} />
         <div className="hide-md" />
         <Reveal className="intro__body">
-          <p>{profile.summary}</p>
+          <p>{t('about.summary', { years, deployments: profile.deployments })}</p>
         </Reveal>
         <Reveal className="intro__facts" delay={0.1}>
           <div>
-            <strong>~200</strong>
-            <span className="caps muted">hospitals on my SSO</span>
+            <strong>~{profile.deployments}</strong>
+            <span className="caps muted">{t('about.facts.deployments')}</span>
           </div>
           <div>
-            <strong>7</strong>
-            <span className="caps muted">years in production</span>
+            <strong>{years}</strong>
+            <span className="caps muted">{t('about.facts.years', { count: years })}</span>
           </div>
           <div>
-            <strong>4</strong>
-            <span className="caps muted">languages spoken</span>
+            <strong>{spokenLanguages.length}</strong>
+            <span className="caps muted">{t('about.facts.languages')}</span>
           </div>
         </Reveal>
       </div>
@@ -152,8 +178,7 @@ export function Intro() {
 }
 
 export function Marquee() {
-  const items = ['TypeScript', 'React', 'Next.js', '.NET', 'Node.js', 'PostgreSQL', 'Kerberos', 'Module Federation', 'gRPC', 'Kubernetes']
-  const row = items.flatMap(item => [<span key={item}>{item}</span>, <span key={item + '-x'}><i>✕</i></span>])
+  const row = marquee.map(item => <span key={item}>{item}</span>)
   return (
     <div className="marquee" aria-hidden="true">
       <div className="marquee__track">
@@ -165,15 +190,16 @@ export function Marquee() {
 }
 
 export function Work() {
+  const { t } = useTranslation()
   const [active, setActive] = useState<Project | null>(null)
   return (
     <section className="section" id="work">
       <div className="work__head grid4">
         <h2>
-          <SectionLabel index="02">Selected work</SectionLabel>
+          <SectionLabel index="02">{t('work.label')}</SectionLabel>
         </h2>
         <a href="#experience" className="caps underline-link">
-          View experience
+          {t('work.viewExperience')}
         </a>
       </div>
       <div className="work__grid">
@@ -191,11 +217,15 @@ export function Work() {
               <Canvas draw={projectVisuals[p.visual]} />
             </div>
             <div className="card__body">
-              <h3 className="card__title">{p.title}</h3>
-              <span className="caps muted">{p.tagline}</span>
+              <h3 className="card__title">{t(`projects.${p.id}.title`)}</h3>
+              <span className="caps muted">{t(`projects.${p.id}.tagline`)}</span>
               <span className="card__see caps">
-                <b>Case study →</b>
-                <b>Case study →</b>
+                {[0, 1].map(k => (
+                  <b key={k} className="with-icon">
+                    {t('work.caseStudy')}
+                    <Icon name="arrowRight" />
+                  </b>
+                ))}
               </span>
             </div>
           </motion.button>
@@ -207,6 +237,10 @@ export function Work() {
 }
 
 function ProjectSheet({ project, onClose }: { project: Project; onClose: () => void }) {
+  const { t } = useTranslation()
+  const list = useList(`projects.${project.id}`)
+  const title = t(`projects.${project.id}.title`)
+  const client = project.client ?? t(`projects.${project.id}.client`)
   useScrollLock(true)
   useEffect(() => {
     window.addEventListener('overlay:close', onClose)
@@ -218,7 +252,7 @@ function ProjectSheet({ project, onClose }: { project: Project; onClose: () => v
       className="sheet"
       role="dialog"
       aria-modal="true"
-      aria-label={project.title}
+      aria-label={title}
       data-lenis-prevent
       initial={{ clipPath: 'inset(100% 0 0 0)' }}
       animate={{ clipPath: 'inset(0% 0 0 0)', transitionEnd: { clipPath: 'none' } }}
@@ -227,10 +261,13 @@ function ProjectSheet({ project, onClose }: { project: Project; onClose: () => v
     >
       <div className="sheet__bar grid4 caps">
         <Mark />
-        <span className="hide-md">{project.client}</span>
-        <span className="hide-md">{project.year}</span>
-        <button className="caps" onClick={onClose} autoFocus>
-          Close ✕
+        <span className="hide-md">{client}</span>
+        <span className="hide-md">
+          <Period start={project.start} end={project.end} />
+        </span>
+        <button className="caps with-icon" onClick={onClose} autoFocus>
+          {t('header.close')}
+          <Icon name="close" />
         </button>
       </div>
       <div className="sheet__visual">
@@ -243,22 +280,24 @@ function ProjectSheet({ project, onClose }: { project: Project; onClose: () => v
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.35, ease }}
         >
-          {project.title}
+          {title}
         </motion.h2>
-        <p className="sheet__lead">{project.tagline}</p>
+        <p className="sheet__lead">{t(`projects.${project.id}.tagline`)}</p>
         <ul className="sheet__points">
-          {project.points.map(pt => (
+          {list('points').map(pt => (
             <li key={pt}>{pt}</li>
           ))}
         </ul>
         <div className="sheet__meta">
           <div>
-            <div className="caps muted">Client</div>
-            <div className="caps">{project.client}</div>
+            <div className="caps muted">{t('work.client')}</div>
+            <div className="caps">{client}</div>
           </div>
           <div>
-            <div className="caps muted">Year</div>
-            <div className="caps">{project.year}</div>
+            <div className="caps muted">{t('work.year')}</div>
+            <div className="caps">
+              <Period start={project.start} end={project.end} />
+            </div>
           </div>
         </div>
         <div className="tags mono">
@@ -272,26 +311,30 @@ function ProjectSheet({ project, onClose }: { project: Project; onClose: () => v
 }
 
 export function Experience() {
+  const { t } = useTranslation()
+  const list = useList('experience.jobs')
   const [open, setOpen] = useState(0)
   return (
     <section className="section" id="experience">
       <div className="grid4" style={{ marginBottom: 'clamp(32px, 4vw, 64px)' }}>
         <h2>
-          <SectionLabel index="03">Experience</SectionLabel>
+          <SectionLabel index="03">{t('experience.label')}</SectionLabel>
         </h2>
       </div>
       <div className="rows">
         {experience.map((job, i) => {
           const isOpen = open === i
           return (
-            <div className="row" key={job.company + job.period} data-open={isOpen}>
+            <div className="row" key={job.id} data-open={isOpen}>
               <button className="row__head grid4" onClick={() => setOpen(isOpen ? -1 : i)} aria-expanded={isOpen}>
-                <span className="mono muted">{job.period}</span>
-                <span className="row__role">{job.role}</span>
+                <span className="mono muted">
+                  <Period start={job.start} end={job.end} />
+                </span>
+                <span className="row__role">{t(`experience.jobs.${job.id}.role`)}</span>
                 <span className="caps">{job.company}</span>
                 <span className="row__toggle caps">
-                  <span className="muted hide-md">{job.place}</span>
-                  <span className="row__plus">+</span>
+                  <span className="muted hide-md">{t(`experience.jobs.${job.id}.place`)}</span>
+                  <Icon name="plus" className="row__plus" />
                 </span>
               </button>
               <AnimatePresence initial={false}>
@@ -306,11 +349,11 @@ export function Experience() {
                     <div className="row__inner grid4">
                       <div className="caps muted hide-md">{job.company}</div>
                       <ul>
-                        {job.points.map(pt => (
+                        {list(`${job.id}.points`).map(pt => (
                           <li key={pt}>{pt}</li>
                         ))}
                       </ul>
-                      {job.stack && <p className="mono muted">{job.stack}</p>}
+                      {job.stack && <p className="mono muted">{job.stack.join(', ')}</p>}
                     </div>
                   </motion.div>
                 )}
@@ -324,18 +367,19 @@ export function Experience() {
 }
 
 export function Stack() {
+  const { t } = useTranslation()
   const [active, setActive] = useState<number | null>(null)
   return (
     <section className="section" id="stack">
       <div className="grid4 stack__head">
         <h2>
-          <SectionLabel index="04">Stack</SectionLabel>
+          <SectionLabel index="04">{t('stack.label')}</SectionLabel>
         </h2>
-        <ScrollWords className="stack__lead" text="Identity is where the layers meet — so I work across all of them." />
+        <ScrollWords key={t('stack.lead')} className="stack__lead" text={t('stack.lead')} />
       </div>
       <div className="stack grid4">
         {disciplines.map((d, i) => (
-          <Reveal key={d.name} delay={i * 0.08}>
+          <Reveal key={d.id} delay={i * 0.08}>
             <div
               className="stack__col"
               data-dim={active !== null && active !== i}
@@ -343,8 +387,8 @@ export function Stack() {
               onMouseLeave={() => setActive(null)}
             >
               <div className="stack__name">
-                <span className="mono muted">{String(i + 1).padStart(2, '0')}/</span>
-                <h3>{d.name}</h3>
+                <span className="mono muted">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{t(`stack.groups.${d.id}`)}</h3>
               </div>
               <ul className="mono">
                 {d.items.map(item => (
@@ -360,21 +404,25 @@ export function Stack() {
 }
 
 export function Education() {
+  const { t } = useTranslation()
+  const list = useList('education.items')
   return (
     <section className="section">
       <div className="grid4" style={{ marginBottom: 'clamp(32px, 4vw, 64px)' }}>
         <h2>
-          <SectionLabel index="05">Education</SectionLabel>
+          <SectionLabel index="05">{t('education.label')}</SectionLabel>
         </h2>
       </div>
       <div className="grid4 edu">
         {education.map((e, i) => (
-          <Reveal key={e.degree} className="edu__item" delay={i * 0.1}>
-            <span className="mono muted">{e.period}</span>
-            <h3>{e.degree}</h3>
-            <span className="caps">{e.school}</span>
+          <Reveal key={e.id} className="edu__item" delay={i * 0.1}>
+            <span className="mono muted">
+              <Period start={e.start} end={e.end} />
+            </span>
+            <h3>{t(`education.items.${e.id}.degree`)}</h3>
+            <span className="caps">{t(`education.items.${e.id}.school`)}</span>
             <ul>
-              {e.points.map(pt => (
+              {list(`${e.id}.points`).map(pt => (
                 <li key={pt}>{pt}</li>
               ))}
             </ul>
@@ -386,13 +434,15 @@ export function Education() {
 }
 
 export function Contact() {
+  const { t, i18n } = useTranslation()
   const time = useClock()
+  const languageName = new Intl.DisplayNames([i18n.resolvedLanguage ?? 'en'], { type: 'language' })
   return (
     <>
       <section className="cta" id="contact">
-        <SectionLabel index="06">Contact</SectionLabel>
+        <SectionLabel index="06">{t('nav.contact')}</SectionLabel>
         <a className="cta__big" href={`mailto:${profile.email}`}>
-          Let’s talk <em>→</em>
+          {t('contact.letsTalk')} <Icon name="arrowRight" className="cta__arrow" />
         </a>
       </section>
       <footer className="footer grid4">
@@ -400,7 +450,7 @@ export function Contact() {
           <Mark />
         </div>
         <div>
-          <h4 className="caps">Contact</h4>
+          <h4 className="caps">{t('nav.contact')}</h4>
           <ul className="mono">
             <li>
               <a className="underline-link" href={`mailto:${profile.email}`}>
@@ -408,39 +458,54 @@ export function Contact() {
               </a>
             </li>
           </ul>
+          <h4 className="caps footer__sub">{t('contact.languages')}</h4>
+          <ul className="mono muted">
+            {spokenLanguages.map(l => (
+              <li key={l.code}>
+                {languageName.of(l.code)}, {t(`levels.${l.level}`)}
+                {'certificate' in l && ` (${l.certificate})`}
+              </li>
+            ))}
+          </ul>
         </div>
         <div>
-          <h4 className="caps">Based</h4>
+          <h4 className="caps">{t('contact.based')}</h4>
           <ul className="mono">
-            <li>{profile.location}</li>
-            <li className="muted">Local time {time}</li>
-            <li className="muted" style={{ marginTop: 12 }}>
-              {languages.join(' / ')}
+            <li>
+              {profile.city}, {profile.country}
+            </li>
+            <li className="muted">
+              {t('contact.localTime')} {time}
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="caps">Social</h4>
+          <h4 className="caps">{t('contact.social')}</h4>
           <ul className="mono">
             <li>
-              <a className="underline-link" href={profile.github} target="_blank" rel="noreferrer">
-                GitHub ↗
+              <a className="underline-link with-icon" href={profile.github} target="_blank" rel="noreferrer">
+                GitHub <Icon name="arrowUpRight" />
               </a>
             </li>
             <li>
-              <a className="underline-link" href={profile.linkedin} target="_blank" rel="noreferrer">
-                LinkedIn ↗
+              <a className="underline-link with-icon" href={profile.linkedin} target="_blank" rel="noreferrer">
+                LinkedIn <Icon name="arrowUpRight" />
               </a>
             </li>
-            <li className="muted" style={{ marginTop: 12 }}>
-              Off-screen: {interests.join(', ').toLowerCase()}
-            </li>
+          </ul>
+          <h4 className="caps footer__sub">{t('contact.offScreen')}</h4>
+          <ul className="mono muted">
+            {interests.map(id => (
+              <li key={id}>{t(`interests.${id}`)}</li>
+            ))}
           </ul>
         </div>
         <div className="footer__bottom mono muted">
-          <span>© {new Date().getFullYear()} {profile.name}</span>
-          <a href="#top" className="underline-link">
-            Back to top ↑
+          <span>
+            &copy; {new Date().getFullYear()} {profile.name}
+          </span>
+          <a href="#top" className="underline-link with-icon">
+            {t('header.backToTop')} <Icon name="arrowUp" />
           </a>
         </div>
       </footer>

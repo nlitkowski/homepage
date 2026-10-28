@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "title": "Norbert Litkowski, full-stack software engineer",
+    "description": "Norbert Litkowski, full-stack software engineer. TypeScript, React, Node.js, .NET and SQL. End-to-end features, identity and enterprise integration."
+  },
+  "nav": {
+    "about": "About",
+    "work": "Work",
+    "experience": "Experience",
+    "stack": "Stack",
+    "contact": "Contact"
+  },
+  "header": {
+    "menu": "Index",
+    "close": "Close",
+    "backToTop": "Back to top",
+    "themeToLight": "Switch to light theme",
+    "themeToDark": "Switch to dark theme",
+    "language": "Language"
+  },
+  "hero": {
+    "caption_one": "full-stack software engineer, {{count}} year in production",
+    "caption_other": "full-stack software engineer, {{count}} years in production",
+    "focus": ["Backend", "Frontend", "Integration"],
+    "scroll": "Scroll"
+  },
+  "about": {
+    "statement": "I connect new platforms to hard legacy enterprise systems.",
+    "summary": "Full-stack engineer with {{years}} years of shipping production software in TypeScript/React, Node.js, .NET and SQL. At IC Solutions I work on ICPen, a document signing platform with around {{deployments}} deployments in hospitals, banks and energy companies. I build its features from the ground up: database schema, .NET microservices and gRPC APIs, the React frontend of the main application and its admin apps, and deployment configuration, including the sign-in stack of Kerberos SSO, LDAP and Active Directory. I own the work end to end, from architecture and implementation details to production fixes.",
+    "facts": {
+      "deployments": "deployments in hospitals, banks and energy",
+      "years_one": "year in production",
+      "years_other": "years in production",
+      "languages": "languages spoken"
+    }
+  },
+  "work": {
+    "label": "Selected work",
+    "viewExperience": "View experience",
+    "caseStudy": "Case study",
+    "client": "Client",
+    "year": "Year"
+  },
+  "projects": {
+    "icpen": {
+      "title": "ICPen Identity",
+      "tagline": "Windows SSO and LDAP sign-in for a document signing platform.",
+      "points": [
+        "Kerberos single sign-on through nginx SPNEGO and a custom IdentityServer4 grant validator, so staff sign in with their existing Windows domain accounts.",
+        "Multi-domain LDAP and Active Directory integration with a plugin architecture: a dynamic admin panel built from Module Federation 2.0 remotes, driven by a gRPC configuration service.",
+        "Replaced server-rendered Razor login pages with a React/TypeScript login UI.",
+        "Diagnosed and fixed nginx caching bugs affecting deployments inside customer networks."
+      ]
+    },
+    "kiribati": {
+      "title": "Kiribati AI",
+      "tagline": "An internal AI assistant platform, used daily.",
+      "points": [
+        "Built and maintain an AI assistant platform for a Polish travel company on top of the open-source chatbot-ui codebase, used daily by 10 to 30 staff.",
+        "OpenAI models with model selection per user and per project.",
+        "Shared and private workspaces with custom assistants that staff configure and scope to each workspace.",
+        "PostgreSQL data model for workspaces, projects, members, per-user model settings and assistants, plus i18n and a custom design system matching the brand."
+      ]
+    },
+    "transpiler": {
+      "title": "Transpiler",
+      "tagline": "C# logic running in the browser.",
+      "points": [
+        "Custom engine that transpiles C# to JavaScript, so logic written once in C# runs in web browsers. It powered online banking forms.",
+        "A converter for BPMN process models.",
+        "Found and optimised slow-running queries in Microsoft SQL Server.",
+        "Designed APIs with backend developers and built the React/TypeScript clients consuming them."
+      ]
+    },
+    "thesis": {
+      "title": "Attention",
+      "tagline": "Transformers applied to recommender systems.",
+      "client": "MSc thesis, AMU",
+      "points": [
+        "MSc thesis in Artificial Intelligence: applying the Transformer architecture to recommender systems.",
+        "Selected for the US-Poland Science and Technology Symposium in Palo Alto, focused on applying AI to real-world problems.",
+        "Co-founded and hosted a university AI conference with keynote speakers from Stanford and Berkeley."
+      ]
+    }
+  },
+  "experience": {
+    "label": "Experience",
+    "jobs": {
+      "icsolutions": {
+        "role": "Senior Full-Stack Developer",
+        "place": "Poland",
+        "points": [
+          "Build ICPen features end to end: database schema, .NET microservices and gRPC APIs on Kubernetes, the React/TypeScript frontend of the main application and admin apps (built as microfrontends) and configuration, in a team of 5 developers, 1 DevOps engineer and 3 testers.",
+          "Sign-in stack: Kerberos SSO, multi-domain LDAP and Active Directory with a Module Federation plugin architecture, and a React login UI.",
+          "Frontend platform: migration from npm to pnpm, a shared DataTable on Material React Table v3, Module Federation fixes for Shadow DOM and Tailwind CSS v4.",
+          "Set the architecture and implementation details of the features I build; mentoring and onboarding, code review, unit and integration tests."
+        ]
+      },
+      "kiribati": {
+        "role": "Freelance Full-Stack Developer",
+        "place": "Remote",
+        "points": [
+          "Internal AI assistant platform for a travel company, owning the full cycle from schema to UI to release.",
+          "Requirements and bug reports straight from the client, turned into prioritised fixes and features."
+        ]
+      },
+      "symphony": {
+        "role": "Full-Stack Developer",
+        "place": "Remote",
+        "points": [
+          "Part of a US-based team, collaborating across time zones in English.",
+          "Backend services and React/TypeScript interfaces for a microservice system running in Docker.",
+          "Owned milestones from first design to final delivery, agreeing technical proposals with stakeholders."
+        ]
+      },
+      "domdata": {
+        "role": "Full-Stack Developer",
+        "place": "Poznań",
+        "points": [
+          "C# to JavaScript transpiler powering online banking forms, and a BPMN model converter.",
+          "SQL Server query optimisation, API design and React/TypeScript clients.",
+          "Worked directly with customers and mentored newer developers."
+        ]
+      },
+      "mymusic": {
+        "role": "Junior Backend Developer",
+        "place": "Poznań",
+        "points": ["Designed and maintained databases, built APIs and the data clients consuming them."]
+      },
+      "ignicode": {
+        "role": "Software Development Intern",
+        "place": "Poznań",
+        "points": ["Supported development, QA and UX staff on new products and resolved issues during deployments."]
+      }
+    }
+  },
+  "stack": {
+    "label": "Stack",
+    "lead": "I work across every layer, from the database schema to the UI.",
+    "groups": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "identity": "Identity",
+      "infrastructure": "Infrastructure"
+    }
+  },
+  "education": {
+    "label": "Education",
+    "items": {
+      "msc": {
+        "degree": "MSc Computer Science, Artificial Intelligence",
+        "school": "Adam Mickiewicz University, Poznań",
+        "points": [
+          "Thesis: applying the Transformer architecture to recommender systems.",
+          "Rector's scholarship for top students throughout the degree.",
+          "US-Poland Science and Technology Symposium, Palo Alto.",
+          "Co-founded a university AI conference with keynotes from Stanford and Berkeley."
+        ]
+      },
+      "bsc": {
+        "degree": "BSc Computer Science",
+        "school": "Adam Mickiewicz University, Poznań",
+        "points": [
+          "Thesis on the foundations of TypeScript, including a full-stack carpooling app built in a team of four.",
+          "Rector's scholarship for top students throughout the degree."
+        ]
+      }
+    }
+  },
+  "period": {
+    "present": "now",
+    "to": "to"
+  },
+  "levels": {
+    "native": "native",
+    "fluent": "fluent",
+    "basic": "basic"
+  },
+  "interests": {
+    "bouldering": "bouldering",
+    "vinyl": "vinyl records"
+  },
+  "contact": {
+    "letsTalk": "Let's talk",
+    "based": "Based",
+    "social": "Social",
+    "localTime": "Local time",
+    "languages": "Languages",
+    "offScreen": "Off-screen"
+  }
+}

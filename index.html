@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content="Norbert Litkowski — full-stack software engineer. TypeScript, React, Node.js, .NET, SQL. Identity, SSO and enterprise integration." />
+    <script>
+      // Set the theme before first paint so there is no flash of the wrong one.
+      try {
+        var t = localStorage.getItem('theme')
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
     <title>Norbert Litkowski — Full-Stack Engineer</title>
   </head>
   <body>

@@ -1,7 +1,11 @@
 import type { Draw } from './Canvas'
 import type { Project } from '../data/cv'
 
-const ink = (a: number) => `rgba(236, 235, 230, ${a})`
+let inkRgb = '236, 235, 230'
+export const setInk = (rgb: string) => {
+  if (rgb) inkRgb = rgb
+}
+const ink = (a: number) => `rgba(${inkRgb}, ${a})`
 
 // Undulating ribbons of light, bent toward the pointer.
 export const flowLines: Draw = (ctx, w, h, t, p) => {
@@ -32,7 +36,7 @@ export const flowLines: Draw = (ctx, w, h, t, p) => {
   }
 }
 
-// Concentric network: a central identity node with hospitals pulsing on orbits.
+// Concentric network: a central identity node with deployments pulsing on orbits.
 const rings: Draw = (ctx, w, h, t) => {
   const cx = w / 2
   const cy = h / 2
@@ -110,7 +114,7 @@ const SRC = 'public static decimal Total(IEnumerable<Item> items) => items.Sum(i
 const OUT = 'export const total = (items) => items.reduce((s, i) => s + i.price, 0);       '
 const glyphs: Draw = (ctx, w, h, t) => {
   const size = Math.max(11, Math.min(16, w / 48))
-  ctx.font = `${size}px "JetBrains Mono Variable", monospace`
+  ctx.font = `${size}px "Fira Code Variable", monospace`
   ctx.textBaseline = 'top'
   const cols = Math.floor(w / (size * 0.62))
   const rows = Math.floor(h / (size * 1.5))
@@ -122,8 +126,11 @@ const glyphs: Draw = (ctx, w, h, t) => {
       const src = done ? OUT : SRC
       const ch = src[(c + r * 7) % src.length]
       const edge = Math.abs(u - sweep) < 0.03
+      const x = c * size * 0.62
+      const y = r * size * 1.5
       ctx.fillStyle = edge ? ink(1) : done ? ink(0.62) : ink(0.14)
-      ctx.fillText(edge ? '█' : ch, c * size * 0.62, r * size * 1.5)
+      if (edge) ctx.fillRect(x, y, size * 0.6, size * 1.1)
+      else ctx.fillText(ch, x, y)
     }
   }
 }

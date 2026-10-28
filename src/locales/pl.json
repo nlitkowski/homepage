@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "title": "Norbert Litkowski, inżynier oprogramowania full-stack",
+    "description": "Norbert Litkowski, inżynier oprogramowania full-stack. TypeScript, React, Node.js, .NET i SQL. Funkcje od początku do końca, tożsamość i integracje z systemami korporacyjnymi."
+  },
+  "nav": {
+    "about": "O mnie",
+    "work": "Projekty",
+    "experience": "Doświadczenie",
+    "stack": "Technologie",
+    "contact": "Kontakt"
+  },
+  "header": {
+    "menu": "Menu",
+    "close": "Zamknij",
+    "backToTop": "Wróć na górę",
+    "themeToLight": "Przełącz na jasny motyw",
+    "themeToDark": "Przełącz na ciemny motyw",
+    "language": "Język"
+  },
+  "hero": {
+    "caption_one": "inżynier oprogramowania full-stack, {{count}} rok na produkcji",
+    "caption_few": "inżynier oprogramowania full-stack, {{count}} lata na produkcji",
+    "caption_many": "inżynier oprogramowania full-stack, {{count}} lat na produkcji",
+    "caption_other": "inżynier oprogramowania full-stack, {{count}} lat na produkcji",
+    "focus": ["Backend", "Frontend", "Integracje"],
+    "scroll": "Przewiń"
+  },
+  "about": {
+    "statement": "Łączę nowe platformy z trudnymi systemami legacy.",
+    "summary": "Inżynier full-stack z {{years}}-letnim doświadczeniem w dostarczaniu oprogramowania produkcyjnego w TypeScript/React, Node.js, .NET i SQL. W IC Solutions pracuję nad ICPen, platformą do podpisywania dokumentów, która ma około {{deployments}} wdrożeń w szpitalach, bankach i spółkach energetycznych. Buduję jej funkcje od podstaw: schemat bazy danych, mikroserwisy .NET i API gRPC, frontend głównej aplikacji i aplikacji administracyjnych w React oraz konfigurację wdrożeń, w tym logowanie przez Kerberos SSO, LDAP i Active Directory. Odpowiadam za całość, od ustalania architektury i szczegółów implementacji po poprawki na produkcji.",
+    "facts": {
+      "deployments": "wdrożeń w szpitalach, bankach i energetyce",
+      "years_one": "rok na produkcji",
+      "years_few": "lata na produkcji",
+      "years_many": "lat na produkcji",
+      "years_other": "lat na produkcji",
+      "languages": "języki, którymi mówię"
+    }
+  },
+  "work": {
+    "label": "Wybrane projekty",
+    "viewExperience": "Zobacz doświadczenie",
+    "caseStudy": "Szczegóły",
+    "client": "Klient",
+    "year": "Rok"
+  },
+  "projects": {
+    "icpen": {
+      "title": "ICPen Identity",
+      "tagline": "Logowanie przez Windows SSO i LDAP dla platformy do podpisywania dokumentów.",
+      "points": [
+        "Single sign-on Kerberos przez nginx SPNEGO i własny grant validator w IdentityServer4, dzięki czemu pracownicy logują się istniejącymi kontami domeny Windows.",
+        "Integracja wielodomenowego LDAP i Active Directory z architekturą pluginów: dynamiczny panel administracyjny złożony z remote'ów Module Federation 2.0, sterowany przez usługę konfiguracji gRPC.",
+        "Zastąpienie renderowanych po stronie serwera stron logowania Razor interfejsem w React/TypeScript.",
+        "Zdiagnozowanie i naprawa błędów cache'owania w nginx, które wpływały na wdrożenia w sieciach klientów."
+      ]
+    },
+    "kiribati": {
+      "title": "Kiribati AI",
+      "tagline": "Wewnętrzna platforma asystentów AI, używana na co dzień.",
+      "points": [
+        "Zbudowałem i utrzymuję platformę asystentów AI dla polskiego biura podróży, rozwijając open-source'owy kod chatbot-ui. Codziennie korzysta z niej od 10 do 30 pracowników.",
+        "Modele OpenAI z wyborem modelu dla każdego użytkownika i projektu.",
+        "Wspólne i prywatne przestrzenie robocze z własnymi asystentami, które pracownicy konfigurują i przypisują do danej przestrzeni.",
+        "Model danych w PostgreSQL dla przestrzeni, projektów, członków, ustawień modeli i asystentów, a do tego i18n i własny design system zgodny z marką."
+      ]
+    },
+    "transpiler": {
+      "title": "Transpiler",
+      "tagline": "Logika C# uruchamiana w przeglądarce.",
+      "points": [
+        "Własny silnik transpilujący C# do JavaScriptu, dzięki któremu logika napisana raz w C# działa w przeglądarce. Napędzał formularze bankowości internetowej.",
+        "Konwerter modeli procesów BPMN.",
+        "Wyszukiwanie i optymalizacja wolnych zapytań w Microsoft SQL Server.",
+        "Projektowanie API razem z backendowcami i budowa klientów React/TypeScript, które z nich korzystają."
+      ]
+    },
+    "thesis": {
+      "title": "Attention",
+      "tagline": "Transformery w systemach rekomendacyjnych.",
+      "client": "Praca magisterska, UAM",
+      "points": [
+        "Praca magisterska ze sztucznej inteligencji: zastosowanie architektury Transformer w systemach rekomendacyjnych.",
+        "Udział w US-Poland Science and Technology Symposium w Palo Alto, poświęconym zastosowaniom AI w realnych problemach.",
+        "Współzałożyciel i gospodarz uczelnianej konferencji o AI z prelegentami ze Stanford i Berkeley."
+      ]
+    }
+  },
+  "experience": {
+    "label": "Doświadczenie",
+    "jobs": {
+      "icsolutions": {
+        "role": "Senior Full-Stack Developer",
+        "place": "Polska",
+        "points": [
+          "Funkcje ICPen od początku do końca: schemat bazy, mikroserwisy .NET i API gRPC na Kubernetesie, frontend głównej aplikacji i aplikacji administracyjnych w React/TypeScript (w architekturze mikrofrontendów) i konfiguracja, w zespole 5 programistów, 1 DevOpsa i 3 testerów.",
+          "Logowanie: Kerberos SSO, wielodomenowe LDAP i Active Directory z architekturą pluginów na Module Federation oraz interfejs logowania w React.",
+          "Platforma frontendowa: migracja z npm na pnpm, współdzielony DataTable na Material React Table v3, poprawki Module Federation dla Shadow DOM i Tailwind CSS v4.",
+          "Ustalanie architektury i szczegółów implementacji funkcji, które buduję; mentoring i onboarding, code review, testy jednostkowe i integracyjne."
+        ]
+      },
+      "kiribati": {
+        "role": "Freelance Full-Stack Developer",
+        "place": "Zdalnie",
+        "points": [
+          "Wewnętrzna platforma asystentów AI dla biura podróży, pełny cykl od schematu bazy przez UI po wydanie.",
+          "Wymagania i zgłoszenia błędów prosto od klienta, zamieniane w priorytetyzowane poprawki i funkcje."
+        ]
+      },
+      "symphony": {
+        "role": "Full-Stack Developer",
+        "place": "Zdalnie",
+        "points": [
+          "Praca w zespole z USA, współpraca w różnych strefach czasowych po angielsku.",
+          "Usługi backendowe i interfejsy React/TypeScript dla systemu mikroserwisowego działającego w Dockerze.",
+          "Odpowiedzialność za kamienie milowe od pierwszego projektu po dostarczenie, uzgadnianie propozycji technicznych z interesariuszami."
+        ]
+      },
+      "domdata": {
+        "role": "Full-Stack Developer",
+        "place": "Poznań",
+        "points": [
+          "Transpiler z C# do JavaScriptu napędzający formularze bankowości internetowej oraz konwerter modeli BPMN.",
+          "Optymalizacja zapytań w SQL Server, projektowanie API i klienci React/TypeScript.",
+          "Bezpośrednia praca z klientami i mentoring młodszych programistów."
+        ]
+      },
+      "mymusic": {
+        "role": "Junior Backend Developer",
+        "place": "Poznań",
+        "points": ["Projektowanie i utrzymanie baz danych, budowa API i klientów, którzy z nich korzystają."]
+      },
+      "ignicode": {
+        "role": "Stażysta, Software Development",
+        "place": "Poznań",
+        "points": ["Wsparcie zespołów developmentu, QA i UX przy nowych produktach oraz rozwiązywanie problemów podczas wdrożeń."]
+      }
+    }
+  },
+  "stack": {
+    "label": "Technologie",
+    "lead": "Pracuję na każdej warstwie, od schematu bazy danych po interfejs.",
+    "groups": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "identity": "Tożsamość",
+      "infrastructure": "Infrastruktura"
+    }
+  },
+  "education": {
+    "label": "Wykształcenie",
+    "items": {
+      "msc": {
+        "degree": "Magister informatyki, sztuczna inteligencja",
+        "school": "Uniwersytet im. Adama Mickiewicza w Poznaniu",
+        "points": [
+          "Praca: zastosowanie architektury Transformer w systemach rekomendacyjnych.",
+          "Stypendium rektora dla najlepszych studentów przez cały okres studiów.",
+          "US-Poland Science and Technology Symposium, Palo Alto.",
+          "Współzałożyciel uczelnianej konferencji o AI z prelegentami ze Stanford i Berkeley."
+        ]
+      },
+      "bsc": {
+        "degree": "Studia I stopnia, informatyka",
+        "school": "Uniwersytet im. Adama Mickiewicza w Poznaniu",
+        "points": [
+          "Praca o podstawach języka TypeScript, w tym aplikacja full-stack do wspólnych przejazdów zbudowana w czteroosobowym zespole.",
+          "Stypendium rektora dla najlepszych studentów przez cały okres studiów."
+        ]
+      }
+    }
+  },
+  "period": {
+    "present": "obecnie",
+    "to": "do"
+  },
+  "levels": {
+    "native": "ojczysty",
+    "fluent": "biegły",
+    "basic": "podstawowy"
+  },
+  "interests": {
+    "bouldering": "bouldering",
+    "vinyl": "płyty winylowe"
+  },
+  "contact": {
+    "letsTalk": "Pogadajmy",
+    "based": "Lokalizacja",
+    "social": "Social",
+    "localTime": "Czas lokalny",
+    "languages": "Języki",
+    "offScreen": "Po godzinach"
+  }
+}
