@@ -109,9 +109,36 @@ const orbit: Draw = (ctx, w, h, t) => {
   ctx.fill()
 }
 
-// Columns of code glyphs resolving from C# into JavaScript.
-const SRC = 'public static decimal Total(IEnumerable<Item> items) => items.Sum(i => i.Price);'
-const OUT = 'export const total = (items) => items.reduce((s, i) => s + i.price, 0);       '
+// [C#, JavaScript] pairs in the spirit of the banking-form logic the transpiler handled.
+const SAMPLES: [string, string][] = [
+  ['public static decimal Total(IEnumerable<Item> items) => items.Sum(i => i.Price);', 'export const total = (items) => items.reduce((s, i) => s + i.price, 0);'],
+  ['var adults = people.Where(p => p.Age >= 18).ToList();', 'const adults = people.filter((p) => p.age >= 18);'],
+  ['string name = user?.Name ?? "anonymous";', "const name = user?.name ?? 'anonymous';"],
+  ['foreach (var row in rows) { Validate(row); }', 'for (const row of rows) { validate(row); }'],
+  ['public bool IsValid => !string.IsNullOrWhiteSpace(Iban);', 'get isValid() { return !!this.iban?.trim(); }'],
+  ['var total = lines.Select(l => l.Qty * l.Price).Sum();', 'const total = lines.map((l) => l.qty * l.price).reduce((a, b) => a + b, 0);'],
+  ['if (amount > Limit) throw new InvalidOperationException("Limit exceeded");', "if (amount > this.limit) throw new Error('Limit exceeded');"],
+  ['var byBranch = accounts.GroupBy(a => a.BranchId);', 'const byBranch = groupBy(accounts, (a) => a.branchId);'],
+  ['public async Task<Account> LoadAsync(int id) => await _repo.GetAsync(id);', 'async load(id) { return await this.repo.get(id); }'],
+  ['var label = $"{customer.FirstName} {customer.LastName}";', 'const label = `${customer.firstName} ${customer.lastName}`;'],
+  ['var match = items.FirstOrDefault(i => i.Id == id);', 'const match = items.find((i) => i.id === id) ?? null;'],
+  ['decimal rate = Math.Round(principal * 0.0425m / 12, 2);', 'const rate = Math.round((principal * 0.0425) / 12 * 100) / 100;'],
+  ['public enum Status { Draft, Signed, Rejected }', 'export const Status = { Draft: 0, Signed: 1, Rejected: 2 };'],
+  ['var recent = forms.OrderByDescending(f => f.Created).Take(10);', 'const recent = [...forms].sort((a, b) => b.created - a.created).slice(0, 10);'],
+  ['var isWeekend = date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;', 'const isWeekend = [0, 6].includes(date.getDay());'],
+  ['private readonly Dictionary<string, Rule> _rules = new();', 'private readonly rules = new Map();'],
+]
+const GAP = '    '
+
+// Deterministic per (row, sweep) so a row keeps one sample for a whole pass, then draws a new one.
+const hash = (a: number, b: number) => {
+  let x = Math.imul(a ^ 0x9e3779b9, 0x85ebca6b) ^ Math.imul(b + 0x632be5ab, 0xc2b2ae35)
+  x ^= x >>> 15
+  x = Math.imul(x, 0x2c1b3c6d)
+  return (x ^ (x >>> 12)) >>> 0
+}
+
+// Rows of code glyphs resolving from C# into JavaScript.
 const glyphs: Draw = (ctx, w, h, t) => {
   const size = Math.max(11, Math.min(16, w / 48))
   ctx.font = `${size}px "Fira Code Variable", monospace`
@@ -119,13 +146,20 @@ const glyphs: Draw = (ctx, w, h, t) => {
   const cols = Math.floor(w / (size * 0.62))
   const rows = Math.floor(h / (size * 1.5))
   for (let r = 0; r < rows; r++) {
-    const sweep = ((t * 0.25 + r * 0.035) % 1.6) - 0.3
+    const phase = t * 0.25 + r * 0.035
+    const sweep = (phase % 1.6) - 0.3
+    const seed = hash(r, Math.floor(phase / 1.6))
+    const [cs, js] = SAMPLES[seed % SAMPLES.length]
+    const width = Math.max(cs.length, js.length)
+    const srcLine = cs.padEnd(width) + GAP
+    const outLine = js.padEnd(width) + GAP
+    const offset = (seed >>> 8) % srcLine.length
+    const cursor = Math.floor(sweep * cols)
     for (let c = 0; c < cols; c++) {
-      const u = c / cols
-      const done = u < sweep
-      const src = done ? OUT : SRC
-      const ch = src[(c + r * 7) % src.length]
-      const edge = Math.abs(u - sweep) < 0.03
+      const done = c < cursor
+      const ch = (done ? outLine : srcLine)[(c + offset) % srcLine.length]
+      const edge = c === cursor
+      if (!edge && ch === ' ') continue
       const x = c * size * 0.62
       const y = r * size * 1.5
       ctx.fillStyle = edge ? ink(1) : done ? ink(0.62) : ink(0.14)
