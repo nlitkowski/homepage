@@ -76,9 +76,9 @@ export const experience: Job[] = [
 
 export const disciplines = [
   { id: 'frontend', items: ['React', 'Next.js', 'TypeScript', 'Redux', 'RxJS', 'Module Federation', 'Tailwind CSS', 'Material UI'] },
-  { id: 'backend', items: ['.NET', 'C#', 'Node.js', 'REST', 'gRPC', 'Entity Framework', 'PostgreSQL', 'SQL Server'] },
+  { id: 'backend', items: ['.NET', 'C#', 'Node.js', 'REST', 'gRPC', 'Entity Framework', 'PostgreSQL', 'SQL Server', 'NUnit'] },
   { id: 'identity', items: ['OAuth 2.0', 'OpenID Connect', 'IdentityServer4', 'Kerberos', 'SPNEGO', 'LDAP', 'Active Directory'] },
-  { id: 'infrastructure', items: ['Docker', 'Kubernetes', 'nginx', 'Azure', 'Git', 'NUnit', 'Code review', 'Scrum'] },
+  { id: 'infrastructure', items: ['Docker', 'Kubernetes', 'nginx', 'Azure', 'Git'] },
 ] as const
 
 export const education = [

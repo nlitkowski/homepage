@@ -21,7 +21,11 @@
   "hero": {
     "caption_one": "full-stack software engineer, {{count}} year in production",
     "caption_other": "full-stack software engineer, {{count}} years in production",
-    "focus": ["Backend", "Frontend", "Integration"],
+    "focus": [
+      "Backend",
+      "Frontend",
+      "Integration"
+    ],
     "scroll": "Scroll"
   },
   "about": {
@@ -90,10 +94,11 @@
         "role": "Senior Full-Stack Developer",
         "place": "Poland",
         "points": [
-          "Build ICPen features end to end: database schema, .NET microservices and gRPC APIs on Kubernetes, the React/TypeScript frontend of the main application and admin apps (built as microfrontends) and configuration, in a team of 5 developers, 1 DevOps engineer and 3 testers.",
+          "Full-stack work on ICPen: .NET microservices on Kubernetes and the React/TypeScript frontend of the main application and admin apps (built as microfrontends), in a team of 5 developers, 1 DevOps engineer and 3 testers.",
+          "Features across the platform: document and attachment templates, stamp management, the document views of the web client and integrations with hospital information systems.",
           "Sign-in stack: Kerberos SSO, multi-domain LDAP and Active Directory with a Module Federation plugin architecture, and a React login UI.",
-          "Frontend platform: migration from npm to pnpm, a shared DataTable on Material React Table v3, Module Federation fixes for Shadow DOM and Tailwind CSS v4.",
-          "Set the architecture and implementation details of the features I build; mentoring and onboarding, code review, unit and integration tests."
+          "Set the architecture and implementation details of the features I build, including gRPC and API contracts and database schemas.",
+          "Diagnose production issues on customer deployments, review code and write unit and integration tests."
         ]
       },
       "kiribati": {
@@ -125,12 +130,16 @@
       "mymusic": {
         "role": "Junior Backend Developer",
         "place": "Poznań",
-        "points": ["Designed and maintained databases, built APIs and the data clients consuming them."]
+        "points": [
+          "Designed and maintained databases, built APIs and the data clients consuming them."
+        ]
       },
       "ignicode": {
         "role": "Software Development Intern",
         "place": "Poznań",
-        "points": ["Supported development, QA and UX staff on new products and resolved issues during deployments."]
+        "points": [
+          "Supported development, QA and UX staff on new products and resolved issues during deployments."
+        ]
       }
     }
   },

@@ -23,7 +23,11 @@
     "caption_few": "inżynier oprogramowania full-stack, {{count}} lata na produkcji",
     "caption_many": "inżynier oprogramowania full-stack, {{count}} lat na produkcji",
     "caption_other": "inżynier oprogramowania full-stack, {{count}} lat na produkcji",
-    "focus": ["Backend", "Frontend", "Integracje"],
+    "focus": [
+      "Backend",
+      "Frontend",
+      "Integracje"
+    ],
     "scroll": "Przewiń"
   },
   "about": {
@@ -94,10 +98,11 @@
         "role": "Senior Full-Stack Developer",
         "place": "Polska",
         "points": [
-          "Funkcje ICPen od początku do końca: schemat bazy, mikroserwisy .NET i API gRPC na Kubernetesie, frontend głównej aplikacji i aplikacji administracyjnych w React/TypeScript (w architekturze mikrofrontendów) i konfiguracja, w zespole 5 programistów, 1 DevOpsa i 3 testerów.",
+          "Praca full-stack przy ICPen: mikroserwisy .NET na Kubernetesie oraz frontend głównej aplikacji i aplikacji administracyjnych w React/TypeScript (w architekturze mikrofrontendów), w zespole 5 programistów, 1 DevOpsa i 3 testerów.",
+          "Funkcje w całej platformie: szablony dokumentów i załączników, zarządzanie pieczątkami, widoki dokumentów w aplikacji webowej oraz integracje z systemami szpitalnymi (HIS).",
           "Logowanie: Kerberos SSO, wielodomenowe LDAP i Active Directory z architekturą pluginów na Module Federation oraz interfejs logowania w React.",
-          "Platforma frontendowa: migracja z npm na pnpm, współdzielony DataTable na Material React Table v3, poprawki Module Federation dla Shadow DOM i Tailwind CSS v4.",
-          "Ustalanie architektury i szczegółów implementacji funkcji, które buduję; mentoring i onboarding, code review, testy jednostkowe i integracyjne."
+          "Ustalanie architektury i szczegółów implementacji funkcji, które buduję, w tym kontraktów gRPC i API oraz schematów bazy danych.",
+          "Diagnozowanie problemów produkcyjnych we wdrożeniach u klientów, code review oraz testy jednostkowe i integracyjne."
         ]
       },
       "kiribati": {
@@ -129,12 +134,16 @@
       "mymusic": {
         "role": "Junior Backend Developer",
         "place": "Poznań",
-        "points": ["Projektowanie i utrzymanie baz danych, budowa API i klientów, którzy z nich korzystają."]
+        "points": [
+          "Projektowanie i utrzymanie baz danych, budowa API i klientów, którzy z nich korzystają."
+        ]
       },
       "ignicode": {
         "role": "Stażysta, Software Development",
         "place": "Poznań",
-        "points": ["Wsparcie zespołów developmentu, QA i UX przy nowych produktach oraz rozwiązywanie problemów podczas wdrożeń."]
+        "points": [
+          "Wsparcie zespołów developmentu, QA i UX przy nowych produktach oraz rozwiązywanie problemów podczas wdrożeń."
+        ]
       }
     }
   },
